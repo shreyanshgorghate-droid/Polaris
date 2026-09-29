@@ -56,6 +56,12 @@ class OptimizationRequest(BaseModel):
     shift_hours: int = 2
     battery_safe_reserve: float = 60.0
     shed_flexible_loads: bool = False
+    solar_kw: Optional[float] = None
+    wind_kw: Optional[float] = None
+    critical_load_kw: Optional[float] = None
+    flexible_load_kw: Optional[float] = None
+    battery_soc_pct: Optional[float] = None
+    temp_celsius: Optional[float] = None
 
 class OptimizationResponse(BaseModel):
     decision_headline: str

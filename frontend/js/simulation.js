@@ -300,6 +300,85 @@ class PolarisSimulationEngine {
     this.notify();
   }
 
+  applyCustomInputs(custom) {
+    this.scenario = 'custom';
+    if (custom.solar !== undefined) this.state.solarGen = parseFloat(custom.solar);
+    if (custom.wind !== undefined) this.state.windGen = parseFloat(custom.wind);
+    if (custom.criticalLoad !== undefined) this.state.loads.critical.total = parseFloat(custom.criticalLoad);
+    if (custom.flexibleLoad !== undefined) this.state.loads.flexible.total = parseFloat(custom.flexibleLoad);
+    
+    // Compute total load
+    const crit = this.state.loads.critical.total || 12.5;
+    const flex = this.state.loads.flexible.total || 7.7;
+    this.state.currentLoad = parseFloat((crit + flex).toFixed(1));
+
+    if (custom.batterySoc !== undefined) this.state.batterySoc = parseFloat(custom.batterySoc);
+    if (custom.temp !== undefined) {
+      this.state.weather.temp = parseFloat(custom.temp);
+      if (custom.temp < -40) {
+        this.state.weather.condition = "Extreme Arctic Chill";
+        this.state.weather.impact.heating = "CRITICAL";
+        this.state.weather.impact.risk = "HIGH";
+      } else if (custom.temp < -25) {
+        this.state.weather.condition = "Partly Cloudy";
+        this.state.weather.impact.heating = "HIGH";
+        this.state.weather.impact.risk = "MODERATE";
+      } else {
+        this.state.weather.condition = "Mild Polar Clear";
+        this.state.weather.impact.heating = "MODERATE";
+        this.state.weather.impact.risk = "LOW";
+      }
+    }
+    if (custom.windSpeed !== undefined) {
+      this.state.weather.windSpeed = parseFloat(custom.windSpeed);
+    }
+
+    // Recalculate Energy Balance & AI Allocation
+    const totalGen = this.state.solarGen + this.state.windGen;
+    const balance = totalGen - this.state.currentLoad;
+
+    if (balance >= 0) {
+      // Surplus: 100% renewable, battery charging, genset off
+      this.state.batteryCharging = parseFloat(Math.min(12, balance).toFixed(1));
+      this.state.batteryDischarging = 0.0;
+      this.state.backupGenKw = 0.0;
+      this.state.renewablePct = 100;
+      this.state.fuelSavedPct = 34.0;
+      this.state.status = "OPTIMAL RENEWABLE SURPLUS";
+      this.state.optimization.headline = `SURPLUS DETECTED: +${balance.toFixed(1)} kW surplus. 100% of station powered by renewables. Excess routed to lithium battery storage.`;
+    } else {
+      // Deficit: Evaluate battery vs generator
+      const deficit = Math.abs(balance);
+      this.state.batteryCharging = 0.0;
+      
+      if (this.state.batterySoc > this.state.batteryReserveSafe) {
+        // Battery can cover deficit
+        this.state.batteryDischarging = parseFloat(deficit.toFixed(1));
+        this.state.backupGenKw = 0.0;
+        this.state.renewablePct = Math.round((totalGen / (this.state.currentLoad || 1)) * 100);
+        this.state.fuelSavedPct = 22.0;
+        this.state.status = "BATTERY BUFFERED";
+        this.state.optimization.headline = `DEFICIT COVERED BY BESS: Deficit of ${deficit.toFixed(1)} kW drawn safely from battery. SOC (${this.state.batterySoc}%) remains above ${this.state.batteryReserveSafe}% safe reserve limit.`;
+      } else {
+        // Battery below safe reserve! AI triggers load shifting and genset
+        const batteryHelp = Math.min(deficit, 2.0);
+        this.state.batteryDischarging = parseFloat(batteryHelp.toFixed(1));
+        this.state.backupGenKw = parseFloat((deficit - batteryHelp).toFixed(1));
+        this.state.renewablePct = Math.round((totalGen / (this.state.currentLoad || 1)) * 100);
+        this.state.fuelSavedPct = 8.0;
+        this.state.status = "BACKUP GENSET ENGAGED";
+        this.state.optimization.headline = `RESERVE PROTECTION ACTIVE: Battery SOC at ${this.state.batterySoc}%. Shift flexible loads immediately (-${flex} kW) and dispatch backup generator at ${this.state.backupGenKw} kW to protect life-support.`;
+      }
+    }
+
+    // Update estimated backup hours based on active load and SOC
+    const remainingKwh = (this.state.batterySoc / 100) * 500;
+    this.state.batteryBackupHours = parseFloat((remainingKwh / Math.max(crit, 1)).toFixed(1));
+
+    this.notify();
+    return this.state;
+  }
+
   setScenario(scenarioName) {
     this.scenario = scenarioName;
     console.log(`Setting scenario: ${scenarioName}`);

@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POLARIS – AI-Powered Polar Energy Intelligence System</title>
+  
+  <!-- Google Fonts: Inter, Rajdhani, Orbitron, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Ambient Aurora & Grid Overlays -->
+  <div class="bg-ambient"></div>
+  <div class="bg-grid"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. LANDING & AUTHENTICATION OVERLAY SCREEN                                 -->
+  <!-- ========================================================================= -->
+  <div id="landing-screen" class="landing-view">
+    <div class="landing-card">
+      <div class="landing-logo-ring">❄</div>
+      <h1 class="landing-title">POLARIS</h1>
+      <p class="landing-subtitle">AI-POWERED ENERGY INTELLIGENCE SYSTEM</p>
+      <p class="landing-tagline">“Predict. Optimize. Sustain. For Extreme Polar Environments”</p>
+      
+      <div style="background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 8px; padding: 10px; margin-bottom: 20px; font-size: 11px; text-align: left; color: var(--cyan-ice);">
+        <b>SIH Problem Statement: SIH26061</b><br/>
+        AI-Driven Smart Energy Management System for Remote Polar Research Stations.
+      </div>
+
+      <form class="landing-form" onsubmit="event.preventDefault(); enterControlCenter();">
+        <div class="form-group">
+          <label>Station ID</label>
+          <input type="text" class="form-control" value="ARCTIC-01" readonly />
+        </div>
+        <div class="form-group">
+          <label>Operator Handle</label>
+          <input type="text" class="form-control" value="polar.lead@sih.research" />
+        </div>
+        <div class="form-group">
+          <label>Security Key</label>
+          <input type="password" class="form-control" value="••••••••••••" />
+        </div>
+
+        <div class="landing-demo-btn-wrap">
+          <button type="submit" class="btn btn-primary" style="flex: 1.5; justify-content: center; padding: 12px;">
+            ENTER CONTROL CENTER
+          </button>
+          <button type="button" class="btn btn-outline" style="flex: 1; justify-content: center;" onclick="enterControlCenter()">
+            Demo Mode
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN APPLICATION SHELL                                                    -->
+  <!-- ========================================================================= -->
+  <div class="app-container" id="app-shell" style="display: none;">
+    
+    <!-- LEFT NAVIGATION SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">❄</div>
+        <div class="brand-text">
+          <h1>POLARIS <span class="brand-badge">AI 2.0</span></h1>
+          <div class="brand-subtitle">POLAR ENERGY SYSTEM</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-category">Operations</div>
+        <a class="nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-item" data-page="forecast">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Energy Forecast
+        </a>
+        <a class="nav-item" data-page="optimization">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          AI Optimization
+        </a>
+        <a class="nav-item" data-page="weather">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+          Weather
+        </a>
+
+        <div class="nav-category">Intelligence</div>
+        <a class="nav-item" data-page="analytics">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+        <a class="nav-item" data-page="alerts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Alerts <span class="nav-badge">4</span>
+        </a>
+        <a class="nav-item" data-page="station">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          Station
+        </a>
+        <a class="nav-item" data-page="reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="station-status-pill">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="status-dot-pulse"></div>
+            <span>System Status:</span>
+          </div>
+          <span style="font-weight:700; color:var(--aurora-emerald);">ONLINE</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Sticky Header -->
+      <header class="top-header">
+        <div class="header-station-info">
+          <button class="mobile-nav-toggle" id="mobile-nav-toggle">☰</button>
+          <div class="station-tag">
+            <span>POLAR RESEARCH STATION</span>
+            <span style="color:var(--cyan-bright);">ARCTIC-01</span>
+          </div>
+          <span class="station-coord">78°13'N, 15°38'E · Polar Research Zone</span>
+          <div class="live-badge"><span class="pulse-dot"></span> <span id="system-status-indicator">SYSTEM STATUS: OPERATIONAL</span></div>
+        </div>
+
+        <div class="header-actions">
+          <!-- Demo Scenario Selector -->
+          <div class="scenario-select-wrapper">
+            <span class="scenario-label">Scenario:</span>
+            <select class="scenario-select" id="scenario-select">
+              <option value="normal">Normal Day</option>
+              <option value="cloudy">Cloudy Day (Low Solar)</option>
+              <option value="extreme_cold">Extreme Cold (-44°C)</option>
+              <option value="high_wind">High Wind Surge</option>
+              <option value="storm">Storm Approaching</option>
+              <option value="low_battery">Low Battery Emergency</option>
+            </select>
+          </div>
+
+          <!-- Simulate Storm Button -->
+          <button class="btn btn-storm" id="btn-simulate-storm">
+            ⚡ SIMULATE STORM
+          </button>
+
+          <!-- SIH Presentation Mode Button -->
+          <button class="btn btn-presentation" id="btn-presentation-mode">
+            ▶ PRESENTATION MODE
+          </button>
+        </div>
+      </header>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 1: MAIN DASHBOARD                                                -->
+      <!-- ===================================================================== -->
+      <div class="page-container active" id="page-dashboard">
+        
+        <!-- Top KPI Cards -->
+        <div class="kpi-grid">
+          <!-- KPI 1: Solar -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Solar Generation</span>
+              <div class="kpi-icon-box icon-solar">☀</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-solar">18.4</span> <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-up">↑ +2.4 kW peak window</div>
+          </div>
+
+          <!-- KPI 2: Wind -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Wind Generation</span>
+              <div class="kpi-icon-box icon-wind">༄</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-wind">7.2</span> <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-up">↑ 32 km/h Arctic breeze</div>
+          </div>
+
+          <!-- KPI 3: Current Load -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Current Load</span>
+              <div class="kpi-icon-box icon-load">⌂</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-load">14.2</span> <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-neutral">Critical: 65% · Flex: 35%</div>
+          </div>
+
+          <!-- KPI 4: Battery SOC -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Battery SOC</span>
+              <div class="kpi-icon-box icon-battery">⚡</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-battery-soc">76%</span></div>
+            <div class="kpi-trend trend-up">Charging (+6.4 kW)</div>
+          </div>
+
+          <!-- KPI 5: Renewable Contribution -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Renewable Share</span>
+              <div class="kpi-icon-box icon-renew">☘</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-renewable-pct">68%</span></div>
+            <div class="kpi-trend trend-up">Zero carbon dispatch</div>
+          </div>
+
+          <!-- KPI 6: Backup Fuel -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-name">Backup Fuel</span>
+              <div class="kpi-icon-box icon-fuel">🛢</div>
+            </div>
+            <div class="kpi-value"><span id="kpi-backup-fuel">82%</span></div>
+            <div class="kpi-trend trend-neutral">Generator in Standby</div>
+          </div>
+        </div>
+
+        <!-- ASCII POLAR ENERGY MANAGER Telemetry Box (As specifically required) -->
+        <div class="polar-terminal-widget">
+          <div class="terminal-header">
+            <div class="terminal-title">
+              <span>❄ POLAR ENERGY MANAGER</span>
+              <span class="brand-badge">TELEMETRY CONSOLE</span>
+            </div>
+            <span class="terminal-badge">● LIVE STREAM</span>
+          </div>
+
+          <div class="terminal-grid">
+            <div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Solar Generation</span>
+                <span class="telemetry-val" id="pem-solar" style="color:#f59e0b;">18.4 kW</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Wind Generation</span>
+                <span class="telemetry-val" id="pem-wind" style="color:#38bdf8;">6.2 kW</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Current Load</span>
+                <span class="telemetry-val" id="pem-load" style="color:#f43f5e;">21.7 kW</span>
+              </div>
+            </div>
+            <div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Battery SOC</span>
+                <span class="telemetry-val" id="pem-battery" style="color:#10b981;">74 %</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Fuel Reserve</span>
+                <span class="telemetry-val" id="pem-fuel" style="color:#c084fc;">61 %</span>
+              </div>
+              <div class="telemetry-row">
+                <span class="telemetry-label">Optimal Dispatch</span>
+                <span class="telemetry-val" style="color:#00f2fe;">ACTIVE (100% RE)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forecast Track Lines -->
+          <div class="forecast-track-box">
+            <div class="forecast-track-title">AI FORECAST — NEXT 6 HOURS</div>
+            <div class="forecast-track-line">
+              <span class="track-name">Energy Demand</span>
+              <span class="track-sequence" style="color:#f43f5e;">20 ──22──24──26──25──23 kW</span>
+            </div>
+            <div class="forecast-track-line">
+              <span class="track-name">Renewable</span>
+              <span class="track-sequence" style="color:#2dd4bf;">18 ──20──16──12──10──14 kW</span>
+            </div>
+          </div>
+
+          <!-- Terminal Alert Banner -->
+          <div class="terminal-alert-box">
+            <div class="terminal-alert-title">⚠ ALERT: Renewable generation expected to fall by 32% in next 3 hours.</div>
+            <div class="terminal-recommendation">
+              <b>AI RECOMMENDATION:</b><br/>
+              • Preserve <span>15% battery reserve</span><br/>
+              • <span>Shift flexible load</span> (water heating & labs)<br/>
+              • Prepare <span>backup generation</span> standby
+            </div>
+          </div>
+        </div>
+
+        <!-- Central Energy Flow Visualization -->
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Dynamic Energy Flow Visualization (Real-Time Smart Grid)
+            </div>
+            <span class="live-badge"><span class="pulse-dot"></span> Real-time Power Routing</span>
+          </div>
+          <div class="flow-container" id="energy-flow-container">
+            <!-- Dynamic SVG is injected by dashboard.js -->
+          </div>
+        </div>
+
+        <!-- 2-Column Split: Real-Time Chart & Battery Monitor -->
+        <div class="charts-split-2">
+          <!-- Interactive Generation vs Consumption Chart -->
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/></svg>
+                Real-Time Energy: Generation vs. Consumption
+              </div>
+              <div class="chart-filters">
+                <button class="btn-filter chart-filter-btn" data-range="1">1H</button>
+                <button class="btn-filter chart-filter-btn" data-range="6">6H</button>
+                <button class="btn-filter chart-filter-btn active" data-range="12">12H</button>
+                <button class="btn-filter chart-filter-btn" data-range="24">24H</button>
+              </div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="chart-generation-consumption"></canvas>
+            </div>
+          </div>
+
+          <!-- Circular Battery Monitoring Card -->
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/></svg>
+                Battery Energy Storage System (BESS)
+              </div>
+              <span class="brand-badge" style="color:var(--aurora-emerald); border-color:var(--aurora-emerald);">HEALTHY</span>
+            </div>
+            
+            <div class="battery-viz-wrap">
+              <div class="battery-circle-container">
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                  <circle cx="90" cy="90" r="70" stroke="rgba(255,255,255,0.06)" stroke-width="12" fill="none"/>
+                  <!-- Safe reserve marker at 60% -->
+                  <circle cx="90" cy="90" r="70" stroke="rgba(245, 158, 11, 0.4)" stroke-width="12" stroke-dasharray="263 440" stroke-dashoffset="0" fill="none" transform="rotate(-90 90 90)"/>
+                  <circle id="battery-circle-svg-stroke" cx="90" cy="90" r="70" stroke="#00f2fe" stroke-width="12" stroke-dasharray="440" stroke-dashoffset="105" stroke-linecap="round" fill="none" transform="rotate(-90 90 90)" style="transition: stroke-dashoffset 0.8s ease;"/>
+                </svg>
+                <div class="battery-circle-text">
+                  <div class="battery-percent" id="battery-soc-circle-val">76%</div>
+                  <div class="battery-subtext">STATE OF CHARGE</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+              <div style="background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px;">
+                <div style="font-size:10px; color:var(--text-secondary);">EST. BACKUP TIME</div>
+                <div style="font-size:15px; font-weight:700; color:#fff;" id="battery-backup-hours">8.6 hrs</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px;">
+                <div style="font-size:10px; color:var(--text-secondary);">BATTERY HEALTH (SOH)</div>
+                <div style="font-size:15px; font-weight:700; color:var(--aurora-emerald);" id="battery-health-val">94%</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px;">
+                <div style="font-size:10px; color:var(--text-secondary);">POWER FLOW</div>
+                <div style="font-size:13px; font-weight:700;" id="battery-chg-dis">+6.4 kW (Chg)</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px;">
+                <div style="font-size:10px; color:var(--text-secondary);">SAFE RESERVE LIMIT</div>
+                <div style="font-size:14px; font-weight:700; color:var(--amber-warning);">60% Lock</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Insight Recommendation Banner (As requested) -->
+        <div class="glass-card" style="border-left: 4px solid var(--cyan-bright); background: linear-gradient(90deg, rgba(0, 242, 254, 0.08) 0%, rgba(13, 23, 46, 0.7) 100%);">
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+            <div style="max-width: 800px;">
+              <div style="font-size:11px; font-weight:700; color:var(--cyan-bright); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">
+                ❄ POLARIS AI INSIGHT ENGINE
+              </div>
+              <div style="font-size:13px; color:var(--text-primary); line-height:1.5;">
+                “Based on predicted weather and energy demand, renewable generation may be insufficient between <b>02:00–05:00</b>.<br/>
+                <b>Recommended action:</b> Preserve battery reserve and shift non-critical loads to the previous high-generation period.”
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="switchPage('optimization')">
+              VIEW OPTIMIZATION →
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 2: AI ENERGY FORECAST                                            -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-forecast">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">AI ENERGY FORECASTING ENGINE</h1>
+            <div class="page-subtitle">Deep Learning Ensemble for Polar Microgrid Demand & Generation Forecasting</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <span class="live-badge" style="color:var(--aurora-emerald); border-color:var(--aurora-emerald);">MODEL STATUS: ACTIVE</span>
+            <span class="brand-badge">CONFIDENCE: 92%</span>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-name">Current Demand</div>
+            <div class="kpi-value">14.2 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-neutral">Base Polar Load</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Next 1 Hour</div>
+            <div class="kpi-value" style="color:#f43f5e;">15.1 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-up">↑ +0.9 kW predicted</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Next 6 Hours</div>
+            <div class="kpi-value" style="color:#f43f5e;">16.8 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-up">↑ Peak thermal cycle</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">24H Avg Demand</div>
+            <div class="kpi-value">15.9 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-neutral">Within 250 kWh budget</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Solar Trend (Tomorrow)</div>
+            <div class="kpi-value" style="color:var(--rose-danger);">↓ 18%</div>
+            <div class="kpi-trend trend-down">Arctic cloud cover</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Wind Trend (Tomorrow)</div>
+            <div class="kpi-value" style="color:var(--aurora-emerald);">↑ 9%</div>
+            <div class="kpi-trend trend-up">Favorable wind front</div>
+          </div>
+        </div>
+
+        <div class="charts-split-equal">
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title">Energy Demand Prediction (with 95% Confidence Interval)</div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="chart-forecast-demand"></canvas>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <div class="card-title">Renewable Generation Forecast (Solar + Wind Stacked)</div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="chart-forecast-renewable"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title">Forecasting Model Telemetry & Hyperparameters</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; font-size:12px;">
+            <div>
+              <span style="color:var(--text-secondary);">Model Architecture:</span>
+              <div style="font-weight:700; color:#fff;">Bidirectional LSTM + XGBoost Regressor</div>
+            </div>
+            <div>
+              <span style="color:var(--text-secondary);">Mean Absolute Percentage Error (MAPE):</span>
+              <div style="font-weight:700; color:var(--aurora-emerald);">3.8% (Extreme Arctic Calibrated)</div>
+            </div>
+            <div>
+              <span style="color:var(--text-secondary);">Features Fed:</span>
+              <div style="font-weight:700; color:#fff;">Solar Rad, Wind Vector, Hab Temp, Historical Load</div>
+            </div>
+            <div>
+              <span style="color:var(--text-secondary);">Inference Latency:</span>
+              <div style="font-weight:700; color:var(--cyan-bright);">18 ms / 1-hour interval</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 3: AI OPTIMIZATION ENGINE                                        -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-optimization">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">AI ENERGY OPTIMIZATION ENGINE</h1>
+            <div class="page-subtitle">Multi-Constraint Smart Grid Dispatch & Automated Load Shifting</div>
+          </div>
+          <div id="opt-banner-status">
+            <span class="live-badge" style="color:var(--aurora-emerald); border-color:var(--aurora-emerald);">✓ OPTIMIZED STATE ACTIVE</span>
+          </div>
+        </div>
+
+        <!-- 5-Step Pipeline Graphic -->
+        <div class="opt-pipeline-row">
+          <div class="pipeline-step">
+            <div class="step-circle">1</div>
+            <div class="step-label">Forecast</div>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-step">
+            <div class="step-circle">2</div>
+            <div class="step-label">Analyze</div>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-step">
+            <div class="step-circle">3</div>
+            <div class="step-label">Prioritize</div>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-step">
+            <div class="step-circle">4</div>
+            <div class="step-label">Optimize</div>
+          </div>
+          <div class="pipeline-arrow">➔</div>
+          <div class="pipeline-step">
+            <div class="step-circle">5</div>
+            <div class="step-label">Recommend</div>
+          </div>
+        </div>
+
+        <!-- Current Energy State Banner -->
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div style="font-size:11px; color:var(--text-secondary); text-transform:uppercase;">CURRENT ENERGY STATE</div>
+              <div style="font-size:20px; font-weight:700; color:#fff; margin-top:4px;">
+                Generation: <span style="color:var(--cyan-bright);">25.6 kW</span> &nbsp;|&nbsp; 
+                Demand: <span style="color:#f43f5e;" id="opt-total-demand">14.2 kW</span> &nbsp;|&nbsp; 
+                Battery: <span style="color:var(--aurora-emerald);">76%</span>
+              </div>
+            </div>
+            <div style="background:rgba(0,242,254,0.1); border:1px solid var(--border-accent); padding:10px 16px; border-radius:8px; max-width:500px;">
+              <div style="font-size:11px; font-weight:700; color:var(--cyan-bright);">AI DECISION:</div>
+              <div style="font-size:12px; color:#fff;" id="opt-ai-decision-text">
+                “Maintain battery reserve above 60% and shift flexible loads during the predicted low-generation period.”
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Load Categories Grid -->
+        <div class="load-categories-grid">
+          <!-- Critical Loads -->
+          <div class="load-category-card card-critical">
+            <div class="card-header">
+              <div class="card-title" style="color:#f43f5e;">CRITICAL LOADS (Priority 1)</div>
+              <span class="load-priority-tag tag-critical">NON-SHEDDABLE</span>
+            </div>
+            <div class="load-item-row" data-category="critical" data-power="6.2">
+              <div>
+                <b>Station Life-Support & Heating</b>
+                <div style="font-size:10px; color:var(--text-muted);">Habitat thermal envelope</div>
+              </div>
+              <span style="font-weight:700; color:#f43f5e;">6.2 kW</span>
+            </div>
+            <div class="load-item-row" data-category="critical" data-power="1.8">
+              <div>
+                <b>Satellite & Emergency Comms</b>
+                <div style="font-size:10px; color:var(--text-muted);">Iridium uplink + VHF beacon</div>
+              </div>
+              <span style="font-weight:700; color:#f43f5e;">1.8 kW</span>
+            </div>
+            <div class="load-item-row" data-category="critical" data-power="3.5">
+              <div>
+                <b>Medical & Life Support Systems</b>
+                <div style="font-size:10px; color:var(--text-muted);">Oxygen concentrators & medical hub</div>
+              </div>
+              <span style="font-weight:700; color:#f43f5e;">3.5 kW</span>
+            </div>
+            <div class="load-item-row" data-category="critical" data-power="1.0">
+              <div>
+                <b>Station Automation & Fire Suppression</b>
+                <div style="font-size:10px; color:var(--text-muted);">Sensors & emergency SCADA</div>
+              </div>
+              <span style="font-weight:700; color:#f43f5e;">1.0 kW</span>
+            </div>
+          </div>
+
+          <!-- Flexible Loads -->
+          <div class="load-category-card card-flexible">
+            <div class="card-header">
+              <div class="card-title" style="color:#38bdf8;">FLEXIBLE LOADS (Priority 2)</div>
+              <span class="load-priority-tag tag-flexible">LOAD-SHIFTABLE</span>
+            </div>
+            <div class="load-item-row" data-category="flexible" data-power="2.8">
+              <div>
+                <b>Water Heating & Snow Melter</b>
+                <div style="font-size:10px; color:var(--text-muted);">Thermal storage buffer</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:700; color:#38bdf8;">2.8 kW</span>
+                <input type="checkbox" checked class="load-toggle-switch" />
+              </div>
+            </div>
+            <div class="load-item-row" data-category="flexible" data-power="3.4">
+              <div>
+                <b>Research Compute & Lab Racks</b>
+                <div style="font-size:10px; color:var(--text-muted);">Atmospheric particle analyzers</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:700; color:#38bdf8;">3.4 kW</span>
+                <input type="checkbox" checked class="load-toggle-switch" />
+              </div>
+            </div>
+            <div class="load-item-row" data-category="flexible" data-power="1.5">
+              <div>
+                <b>Non-Critical Galley & EV Chargers</b>
+                <div style="font-size:10px; color:var(--text-muted);">Snowmobile rover charging</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-weight:700; color:#38bdf8;">1.5 kW</span>
+                <input type="checkbox" checked class="load-toggle-switch" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Backup Loads -->
+          <div class="load-category-card card-backup">
+            <div class="card-header">
+              <div class="card-title" style="color:#c084fc;">BACKUP GENERATION (Priority 3)</div>
+              <span class="load-priority-tag tag-backup">LAST RESORT</span>
+            </div>
+            <div class="load-item-row">
+              <div>
+                <b>Arctic Diesel Genset (100 kW)</b>
+                <div style="font-size:10px; color:var(--text-muted);">Fuel: Arctic Grade Kerosene/Diesel</div>
+              </div>
+              <span style="font-weight:700; color:#c084fc;">STANDBY (0 kW)</span>
+            </div>
+            <div class="load-item-row">
+              <div>
+                <b>Emergency Battery Cold Reserve</b>
+                <div style="font-size:10px; color:var(--text-muted);">Dedicated 20% emergency reserve</div>
+              </div>
+              <span style="font-weight:700; color:#10b981;">LOCKED (100 kWh)</span>
+            </div>
+            <div style="margin-top:16px; font-size:11px; color:var(--text-secondary);">
+              AI Governor will only dispatch Genset if Renewable + Battery drops below 60% threshold.
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive AI Shifting & Optimization Controls -->
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">Interactive AI Load Shifting & Impact Simulator</div>
+            <button class="btn btn-outline" id="btn-recalculate-opt">Re-Run Simplex Solver</button>
+          </div>
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px; align-items:center;">
+            <div>
+              <label style="display:block; font-size:12px; margin-bottom:8px; color:var(--text-secondary);">
+                Adjust Flexible Load Time-Shift Horizon: <b id="val-load-shift" style="color:var(--cyan-bright);">2 Hours</b>
+              </label>
+              <input type="range" min="0" max="6" value="2" step="1" id="slider-load-shift" style="width:100%; cursor:pointer;" />
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-muted); margin-top:4px;">
+                <span>0h (Immediate)</span>
+                <span>2h (Optimal Wind Alignment)</span>
+                <span>4h</span>
+                <span>6h (Max Postponement)</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:16px;">
+              <div class="impact-metric-card" style="flex:1;">
+                <div class="impact-metric-val" id="opt-fuel-saved-metric">+25%</div>
+                <div class="impact-metric-lbl">Est. Fuel Saved</div>
+              </div>
+              <div class="impact-metric-card" style="flex:1;">
+                <div class="impact-metric-val" id="opt-peak-shaved-metric">-3.6 kW</div>
+                <div class="impact-metric-lbl">Peak Load Shaved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Recommendations List -->
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title">AI Optimization Directives & Recommendations</div>
+          </div>
+          <div class="ai-recom-list">
+            <div class="ai-recom-item">
+              <div class="recom-check">✓</div>
+              <div>
+                <div class="recom-text"><b>Use renewable energy for current critical loads:</b> 100% of heating and life support powered by Solar PV (18.4 kW) and Wind (7.2 kW).</div>
+                <div class="recom-impact">Fuel Saved: ~14.2 L/hr · Carbon Avoided: 38 kg CO2/hr</div>
+              </div>
+            </div>
+            <div class="ai-recom-item">
+              <div class="recom-check">✓</div>
+              <div>
+                <div class="recom-text"><b>Charge battery using excess renewable generation:</b> 6.4 kW surplus routed to lithium-titanate storage cells.</div>
+                <div class="recom-impact">Battery reaches 88% before dusk window</div>
+              </div>
+            </div>
+            <div class="ai-recom-item">
+              <div class="recom-check">✓</div>
+              <div>
+                <div class="recom-text"><b>Shift flexible research loads by 2 hours:</b> Synchronize atmospheric lasers and ice core drills with forecasted 62 km/h wind gusts.</div>
+                <div class="recom-impact">Zero grid congestion · Levelized energy cost: -42%</div>
+              </div>
+            </div>
+            <div class="ai-recom-item">
+              <div class="recom-check">✓</div>
+              <div>
+                <div class="recom-text"><b>Maintain emergency battery reserve:</b> Minimum 60% SOC floor preserved against extreme temperature dips.</div>
+                <div class="recom-impact">8.6 hours of blackout autonomy guaranteed</div>
+              </div>
+            </div>
+            <div class="ai-recom-item">
+              <div class="recom-check">✓</div>
+              <div>
+                <div class="recom-text"><b>Activate backup generation only when required:</b> Diesel generator maintained on zero-idle cold standby.</div>
+                <div class="recom-impact">Minimizes polar soot emissions near scientific sensors</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 4: WEATHER & ENVIRONMENT                                         -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-weather">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">POLAR WEATHER & ENVIRONMENTAL TELEMETRY</h1>
+            <div class="page-subtitle">Real-Time Meteorological Sensors & Renewable Impact Assessment</div>
+          </div>
+        </div>
+
+        <div class="weather-hero-grid">
+          <div class="weather-metric-box">
+            <span class="kpi-name">Ambient Temperature</span>
+            <div class="weather-val">-28°C</div>
+            <div style="font-size:11px; color:var(--text-muted);">Wind Chill: -39°C</div>
+          </div>
+          <div class="weather-metric-box">
+            <span class="kpi-name">Wind Velocity</span>
+            <div class="weather-val" style="color:var(--aurora-teal);">32 km/h</div>
+            <div style="font-size:11px; color:var(--text-muted);">Direction: NNE (35°)</div>
+          </div>
+          <div class="weather-metric-box">
+            <span class="kpi-name">Solar Irradiance</span>
+            <div class="weather-val" style="color:var(--amber-warning);">412 <span style="font-size:14px;">W/m²</span></div>
+            <div style="font-size:11px; color:var(--text-muted);">Direct + Snow Albedo</div>
+          </div>
+          <div class="weather-metric-box">
+            <span class="kpi-name">Relative Humidity</span>
+            <div class="weather-val" style="color:#fff;">68%</div>
+            <div style="font-size:11px; color:var(--text-muted);">Pressure: 1014 hPa</div>
+          </div>
+          <div class="weather-metric-box">
+            <span class="kpi-name">Visibility</span>
+            <div class="weather-val" style="color:#fff;">8.4 <span style="font-size:14px;">km</span></div>
+            <div style="font-size:11px; color:var(--text-muted);">Polar Daylight</div>
+          </div>
+          <div class="weather-metric-box">
+            <span class="kpi-name">Weather Condition</span>
+            <div style="font-size:16px; font-weight:700; color:var(--cyan-bright); margin-top:8px;">Partly Cloudy</div>
+            <div style="font-size:11px; color:var(--aurora-emerald);">Aurora: KP 4.2</div>
+          </div>
+        </div>
+
+        <!-- Weather Impact Panel (As requested) -->
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">WEATHER IMPACT ON ENERGY MATRIX</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
+            <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">SOLAR GENERATION POTENTIAL</div>
+              <span class="impact-pill impact-mod">MODERATE</span>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">High albedo boost compensates for low sun elevation angle.</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">WIND GENERATION YIELD</div>
+              <span class="impact-pill impact-high" style="background:rgba(16,185,129,0.2); color:#10b981; border-color:rgba(16,185,129,0.4);">HIGH</span>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Stable Arctic katabatic airflow powers 30 kW turbine array.</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">HEATING THERMAL DEMAND</div>
+              <span class="impact-pill impact-high">HIGH</span>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Habitat heat-loss requires minimum 6.2 kW baseline heating.</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary); margin-bottom:4px;">OVERALL ENERGY RISK</div>
+              <span class="impact-pill impact-mod">MODERATE</span>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Battery buffer sufficient for next 8.6 hours.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Weather Charts -->
+        <div class="charts-split-3">
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">24-Hour Temperature Profile</div></div>
+            <div class="chart-wrapper"><canvas id="chart-weather-temp"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">Wind Speed Telemetry</div></div>
+            <div class="chart-wrapper"><canvas id="chart-weather-wind"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">Solar Irradiance Flux</div></div>
+            <div class="chart-wrapper"><canvas id="chart-weather-irradiance"></canvas></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 5: ENERGY ANALYTICS                                              -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-analytics">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">STATION ENERGY ANALYTICS</h1>
+            <div class="page-subtitle">Historical Performance, Renewable Efficiency & Carbon Metrics</div>
+          </div>
+          <div class="chart-filters">
+            <button class="btn-filter analytics-range-btn">Today</button>
+            <button class="btn-filter analytics-range-btn active">7 Days</button>
+            <button class="btn-filter analytics-range-btn">30 Days</button>
+          </div>
+        </div>
+
+        <!-- Analytics Top KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-name">Renewable Utilization</div>
+            <div class="kpi-value" style="color:var(--aurora-emerald);">68%</div>
+            <div class="kpi-trend trend-up">Target: >65%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Peak Demand</div>
+            <div class="kpi-value">19.8 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-neutral">Limit: 30 kW</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Average Load</div>
+            <div class="kpi-value">14.6 <span class="kpi-unit">kW</span></div>
+            <div class="kpi-trend trend-neutral">Daily stable</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Battery Round-Trip Eff.</div>
+            <div class="kpi-value" style="color:var(--cyan-bright);">91%</div>
+            <div class="kpi-trend trend-up">LiFePO4 Optimized</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Backup Generator Usage</div>
+            <div class="kpi-value" style="color:#c084fc;">12%</div>
+            <div class="kpi-trend trend-down">↓ 8% lower than diesel-only</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-name">Estimated Fuel Saving</div>
+            <div class="kpi-value" style="color:var(--aurora-teal);">18%</div>
+            <div class="kpi-trend trend-up">+420 Liters Saved/Wk</div>
+          </div>
+        </div>
+
+        <!-- 6 Analytics Charts Grid (As requested) -->
+        <div class="charts-split-3">
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">1. Daily Energy Consumption (kWh)</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-daily"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">2. Renewable Contribution (%)</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-renew-contrib"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">3. Battery SOC Weekly Trends</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-battery-soc"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">4. Peak Demand by Day (kW)</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-peak-demand"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">5. Backup Generator Runtime (Hrs)</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-backup-usage"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">6. Energy Source Distribution</div></div>
+            <div class="chart-wrapper"><canvas id="chart-analytics-source-dist"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 6: ALERTS & RECOMMENDATIONS                                      -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-alerts">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">INTELLIGENT ALERT CENTER</h1>
+            <div class="page-subtitle">Real-Time Anomaly Detection, Weather Warnings & Automated Actionable Directives</div>
+          </div>
+          <div class="chart-filters">
+            <button class="btn-filter alert-filter-tab active" data-severity="ALL">All Alerts</button>
+            <button class="btn-filter alert-filter-tab" data-severity="HIGH">High Priority</button>
+            <button class="btn-filter alert-filter-tab" data-severity="MEDIUM">Medium</button>
+            <button class="btn-filter alert-filter-tab" data-severity="INFO">Info</button>
+            <button class="btn-filter alert-filter-tab" data-severity="WEATHER">Weather</button>
+          </div>
+        </div>
+
+        <div class="alerts-list" id="alerts-feed-container">
+          <!-- Injected dynamically by alerts.js -->
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 7: STATION DETAILS                                               -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-station">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">POLAR RESEARCH STATION: ARCTIC-01</h1>
+            <div class="page-subtitle">Hardware Specifications, Microgrid Capacities & Subsystem Health</div>
+          </div>
+          <span class="station-coord">Station Lat: 78°13'N, Lon: 15°38'E · Sector 4</span>
+        </div>
+
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">Subsystem Operational Health Matrix</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;">
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); padding:16px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary);">ENERGY SYSTEM</div>
+              <div style="font-size:18px; font-weight:700; color:var(--aurora-emerald); margin-top:4px;">HEALTHY</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">All 3 DC buses nominal</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); padding:16px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary);">BATTERY BESS</div>
+              <div style="font-size:18px; font-weight:700; color:var(--aurora-emerald); margin-top:4px;">HEALTHY</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">94% SOH · Cell temp -8°C</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); padding:16px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary);">RENEWABLE SYSTEM</div>
+              <div style="font-size:18px; font-weight:700; color:var(--cyan-bright); margin-top:4px;">OPTIMAL</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Bifacial solar + wind rotor 100%</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); padding:16px; border-radius:8px;">
+              <div style="font-size:11px; color:var(--text-secondary);">COMMUNICATION</div>
+              <div style="font-size:18px; font-weight:700; color:var(--aurora-teal); margin-top:4px;">ONLINE</div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Starlink / Iridium duplex active</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-split-equal">
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">Station Infrastructure & Hardware</div></div>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+              <div class="telemetry-row"><span>Station ID:</span><b>ARCTIC-01</b></div>
+              <div class="telemetry-row"><span>Location:</span><b>Polar Research Zone (Svalbard Sector)</b></div>
+              <div class="telemetry-row"><span>Personnel:</span><b>24 Scientists & Engineers</b></div>
+              <div class="telemetry-row"><span>Daily Energy Capacity:</span><b>250 kWh / day</b></div>
+              <div class="telemetry-row"><span>Battery Storage (BESS):</span><b>500 kWh (Lithium Titanate)</b></div>
+              <div class="telemetry-row"><span>Critical Load Fraction:</span><b>65% (Life-Support & Heat)</b></div>
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header"><div class="card-title">Renewable & Generation Hardware</div></div>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+              <div class="telemetry-row"><span>Bifacial Solar PV Array:</span><b>50 kW Installed</b></div>
+              <div class="telemetry-row"><span>Arctic Rugged Wind Turbines:</span><b>30 kW Installed</b></div>
+              <div class="telemetry-row"><span>Backup Diesel Generator:</span><b>100 kW Arctic Genset</b></div>
+              <div class="telemetry-row"><span>Thermal Heat-Dump Buffer:</span><b>80 kWh Water Storage</b></div>
+              <div class="telemetry-row"><span>SCADA PLC System:</span><b>Modbus / MQTT Polar Bridge</b></div>
+              <div class="telemetry-row"><span>AI Edge Inference Box:</span><b>NVIDIA Jetson Polar-Rugged</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- VIEW 8: REPORTS & EXPORTS                                             -->
+      <!-- ===================================================================== -->
+      <div class="page-container" id="page-reports">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">POLAR ENERGY AUDIT REPORTS</h1>
+            <div class="page-subtitle">Automated Decision Support Reports, CSV Data Logs & PDF Export</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-outline" id="btn-download-csv">📥 Download CSV Log</button>
+            <button class="btn btn-primary" id="btn-print-pdf">🖨 Print / Export PDF</button>
+          </div>
+        </div>
+
+        <div class="glass-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">Daily Energy Audit Summary (ARCTIC-01)</div>
+            <button class="btn btn-outline" id="btn-generate-report" style="font-size:11px;">GENERATE NEW AUDIT</button>
+          </div>
+          <div id="report-gen-status" style="margin-bottom:12px;"></div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-name">Renewable Energy</div>
+              <div class="kpi-value" style="color:var(--aurora-emerald);">68%</div>
+              <div class="kpi-trend trend-up">↑ 14% vs historical</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-name">Energy Consumed</div>
+              <div class="kpi-value">342 <span class="kpi-unit">kWh</span></div>
+              <div class="kpi-trend trend-neutral">Daily Total</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-name">Energy Generated</div>
+              <div class="kpi-value" style="color:var(--cyan-bright);">418 <span class="kpi-unit">kWh</span></div>
+              <div class="kpi-trend trend-up">Surplus Stored in BESS</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-name">Battery Cycles</div>
+              <div class="kpi-value">1.4</div>
+              <div class="kpi-trend trend-neutral">Nominal degradation</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-name">Backup Gen Usage</div>
+              <div class="kpi-value" style="color:#c084fc;">42 <span class="kpi-unit">kWh</span></div>
+              <div class="kpi-trend trend-down">1.4 hrs runtime</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-name">Estimated Fuel Saved</div>
+              <div class="kpi-value" style="color:var(--aurora-teal);">18%</div>
+              <div class="kpi-trend trend-up">48 L Polar Kerosene</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="card-title">Executive AI Insights & Operational Summary</div>
+          </div>
+          <div style="line-height:1.7; font-size:13px; color:var(--text-primary);">
+            <p>During the past 24-hour Arctic operational cycle, the <b>POLARIS AI Engine</b> successfully orchestrated intelligent microgrid dispatch across ARCTIC-01 station. By forecasting wind surges 6 hours in advance, the system prioritized thermal storage pre-heating and postponed non-critical lab analytics, securing an overall <b>68% renewable penetration fraction</b>.</p>
+            <br/>
+            <p>Emergency diesel fuel consumption was reduced by <b>18%</b> while strictly maintaining critical life-support systems (12.5 kW) with zero interruption. Battery reserve protection enforced a 60% SOC safe floor throughout the sub -30°C temperature nadir.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: STORM SIMULATION & BEFORE/AFTER COMPARISON                         -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-storm-simulation">
+    <div class="modal-box">
+      <button class="modal-close-btn" id="close-storm-modal">✕</button>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+        <span style="font-size:24px;">⚡</span>
+        <div>
+          <h2 style="font-family:var(--font-display); font-size:20px; color:#f43f5e; letter-spacing:1px;">
+            ARCTIC STORM SIMULATION TRIGGERED
+          </h2>
+          <div style="font-size:12px; color:var(--text-secondary);">Severe Polar Blizzard & Solar Whiteout Detected by AI Telemetry</div>
+        </div>
+      </div>
+
+      <!-- Before vs After Comparison Grid -->
+      <div class="storm-comparison-grid">
+        <div class="comparison-col col-before">
+          <h3 style="color:#10b981; font-size:13px; text-transform:uppercase; margin-bottom:12px; display:flex; justify-content:space-between;">
+            <span>BEFORE STORM</span>
+            <span>NORMAL</span>
+          </h3>
+          <div class="telemetry-row"><span>Renewable Fraction:</span><b id="storm-before-renew" style="color:#10b981;">72%</b></div>
+          <div class="telemetry-row"><span>Battery SOC:</span><b id="storm-before-batt" style="color:#10b981;">78%</b></div>
+          <div class="telemetry-row"><span>Backup Generator:</span><b id="storm-before-gen" style="color:#94a3b8;">OFF</b></div>
+          <div class="telemetry-row"><span>Ambient Temp:</span><b>-28°C</b></div>
+          <div class="telemetry-row"><span>Wind Speed:</span><b>32 km/h</b></div>
+        </div>
+
+        <div class="comparison-col col-after">
+          <h3 style="color:#f43f5e; font-size:13px; text-transform:uppercase; margin-bottom:12px; display:flex; justify-content:space-between;">
+            <span>AFTER STORM PREDICTION</span>
+            <span style="color:#f43f5e;">CRITICAL EVENT</span>
+          </h3>
+          <div class="telemetry-row"><span>Renewable Fraction:</span><b id="storm-after-renew" style="color:#f43f5e;">41%</b></div>
+          <div class="telemetry-row"><span>Battery SOC:</span><b id="storm-after-batt" style="color:var(--amber-warning);">63%</b></div>
+          <div class="telemetry-row"><span>Backup Generator:</span><b id="storm-after-gen" style="color:#c084fc;">STANDBY (Warm)</b></div>
+          <div class="telemetry-row"><span>Ambient Temp:</span><b style="color:#f43f5e;">-42°C (Surge)</b></div>
+          <div class="telemetry-row"><span>Wind Speed:</span><b style="color:#f43f5e;">68 km/h (Gale)</b></div>
+        </div>
+      </div>
+
+      <!-- AI Action Recommendation -->
+      <div style="background:rgba(245, 158, 11, 0.1); border-left:4px solid var(--amber-warning); padding:14px; border-radius:0 8px 8px 0; margin-bottom:20px;">
+        <div style="font-size:11px; font-weight:700; color:var(--amber-warning); text-transform:uppercase; margin-bottom:4px;">
+          AI AUTONOMOUS EMERGENCY DISPATCH DECISION:
+        </div>
+        <div style="font-size:13px; color:#fff;" id="storm-ai-recom-text">
+          “Preserve battery reserve (>= 60%), postpone flexible research loads, and spin up backup genset into automatic standby.”
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:12px;">
+        <button class="btn btn-outline" onclick="document.getElementById('modal-storm-simulation').classList.remove('active')">Dismiss Alert</button>
+        <button class="btn btn-primary" id="btn-apply-storm-action">Execute AI Load-Shedding Plan →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: SIH PRESENTATION MODE (7-STEP JUDGES WALKTHROUGH)                  -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-presentation-mode">
+    <div class="modal-box" style="max-width: 900px;">
+      <button class="modal-close-btn" id="close-pres-modal">✕</button>
+
+      <!-- Progress Stepper -->
+      <div class="presentation-progress-bar">
+        <div class="progress-step-pill completed"></div>
+        <div class="progress-step-pill"></div>
+        <div class="progress-step-pill"></div>
+        <div class="progress-step-pill"></div>
+        <div class="progress-step-pill"></div>
+        <div class="progress-step-pill"></div>
+        <div class="progress-step-pill"></div>
+      </div>
+
+      <!-- Slide 1: Current Station Status -->
+      <div class="presentation-slide active" data-slide="1">
+        <div style="color:var(--cyan-bright); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 1 OF 7: STATION OVERVIEW</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Polar Research Station ARCTIC-01 Baseline</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          Remote polar research stations operate in severe, isolated microgrids with sub -35°C temperatures and unpredictable weather fronts. Maintaining reliable power for life-support, heating, and scientific research without excess fossil fuel logistics is a critical operational challenge.
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:20px;">
+          <div class="impact-metric-card"><div class="impact-metric-val">24</div><div class="impact-metric-lbl">Crew Personnel</div></div>
+          <div class="impact-metric-card"><div class="impact-metric-val">50 kW / 30 kW</div><div class="impact-metric-lbl">Solar PV / Wind Turbine</div></div>
+          <div class="impact-metric-card"><div class="impact-metric-val">500 kWh</div><div class="impact-metric-lbl">BESS Lithium Storage</div></div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Energy Situation -->
+      <div class="presentation-slide" data-slide="2">
+        <div style="color:var(--cyan-bright); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 2 OF 7: ENERGY SITUATION & BALANCE</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Real-Time Energy Equation</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          The system continuously evaluates the fundamental energy balance:
+        </p>
+        <div style="background:rgba(0, 242, 254, 0.08); border:1px dashed var(--cyan-bright); padding:14px; border-radius:8px; font-family:var(--font-mono); font-size:13px; color:var(--cyan-bright); text-align:center; margin:16px 0;">
+          Available Energy = Solar (18.4 kW) + Wind (7.2 kW) + Battery Buffer (6.4 kW) + Backup Genset (0 kW)
+        </div>
+        <p style="color:var(--text-secondary); font-size:13px;">
+          Critical life-support heating requires 12.5 kW baseline, leaving 7.7 kW for research compute and flexible loads.
+        </p>
+      </div>
+
+      <!-- Slide 3: AI Forecast -->
+      <div class="presentation-slide" data-slide="3">
+        <div style="color:var(--cyan-bright); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 3 OF 7: AI FORECASTING ENGINE</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Deep Learning Predictive Intelligence</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          Our <b>LSTM + XGBoost Ensemble</b> model continuously forecasts station energy demand and renewable generation 1h, 6h, and 24h in advance with 92% confidence, accounting for polar sun elevation and Arctic katabatic winds.
+        </p>
+        <div style="background:rgba(15, 27, 54, 0.8); padding:16px; border-radius:8px; margin-top:16px; border:1px solid var(--border-accent);">
+          <div style="font-size:12px; color:var(--text-secondary); font-family:var(--font-mono);">
+            Predicted Demand Surge: <b style="color:#f43f5e;">+24% next 4 hours</b> | Solar Falloff: <b style="color:#f43f5e;">-32% at 02:00</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Sudden Weather Event -->
+      <div class="presentation-slide" data-slide="4">
+        <div style="color:var(--rose-danger); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 4 OF 7: SUDDEN WEATHER PHENOMENON</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#f43f5e; margin-bottom:12px;">Arctic Cold Front & Blizzard Detection</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          Sensor telemetry flags a drop to -42°C with 68 km/h gale gusts. Solar generation drops to 2.1 kW while thermal habitat heating demand spikes to 23.8 kW. Without proactive AI management, battery reserves would deplete in under 2 hours.
+        </p>
+      </div>
+
+      <!-- Slide 5: Optimization Decision -->
+      <div class="presentation-slide" data-slide="5">
+        <div style="color:var(--cyan-bright); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 5 OF 7: OPTIMIZATION DECISION & PRIORITIZATION</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Multi-Tier Smart Load Shifting</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          The AI Optimization Solver executes priority-driven load shedding:
+        </p>
+        <ul style="color:var(--text-primary); font-size:13px; margin:14px 0 14px 20px; line-height:1.8;">
+          <li><b>Priority 1 (Critical):</b> Life Support, Habitat Heating & Comms guaranteed 100% uninterrupted.</li>
+          <li><b>Priority 2 (Flexible):</b> Water heating & secondary research compute shifted by +2 hours.</li>
+          <li><b>Priority 3 (Storage):</b> 60% safe battery reserve locked against blackout risk.</li>
+        </ul>
+      </div>
+
+      <!-- Slide 6: Final Energy Allocation -->
+      <div class="presentation-slide" data-slide="6">
+        <div style="color:var(--aurora-emerald); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 6 OF 7: SMART ENERGY ALLOCATION</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Automated Grid Re-balancing</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          Microgrid SCADA relays receive automated dispatch commands. Excess wind turbine generation is routed to habitat thermal buffers while the diesel generator is maintained on warm standby without unnecessary fuel burn.
+        </p>
+      </div>
+
+      <!-- Slide 7: Tangible Impact -->
+      <div class="presentation-slide" data-slide="7">
+        <div style="color:var(--aurora-emerald); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">STEP 7 OF 7: MEASURABLE OPERATIONAL IMPACT</div>
+        <h2 style="font-family:var(--font-display); font-size:24px; color:var(--aurora-emerald); margin-bottom:12px;">SIH Mission Results</h2>
+        <p style="color:var(--text-secondary); font-size:13px; line-height:1.6;">
+          POLARIS delivers autonomous, resilient, and eco-friendly energy management for extreme polar frontiers:
+        </p>
+        
+        <div class="impact-metric-grid">
+          <div class="impact-metric-card">
+            <div class="impact-metric-val">↑ 34%</div>
+            <div class="impact-metric-lbl">Renewable Utilization</div>
+          </div>
+          <div class="impact-metric-card">
+            <div class="impact-metric-val">↓ 28%</div>
+            <div class="impact-metric-lbl">Diesel Fuel Burn</div>
+          </div>
+          <div class="impact-metric-card">
+            <div class="impact-metric-val">100%</div>
+            <div class="impact-metric-lbl">Critical Life Support Uptime</div>
+          </div>
+          <div class="impact-metric-card">
+            <div class="impact-metric-val">8.6 Hrs</div>
+            <div class="impact-metric-lbl">Blackout Autonomy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Controls -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:16px; border-top:1px solid var(--border-subtle);">
+        <button class="btn btn-outline" id="btn-pres-prev" disabled>← Previous</button>
+        <button class="btn btn-primary" id="btn-pres-next">Next Slide →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/simulation.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/forecast.js"></script>
+  <script src="js/optimization.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/alerts.js"></script>
+  <script src="js/station.js"></script>
+  <script src="js/reports.js"></script>
+
+  <script>
+    function enterControlCenter() {
+      const landing = document.getElementById('landing-screen');
+      const appShell = document.getElementById('app-shell');
+      if (landing && appShell) {
+        landing.style.display = 'none';
+        appShell.style.display = 'flex';
+        // Trigger resize for Chart.js canvases to layout properly
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -131,47 +131,47 @@ function initEnergyFlowSvg() {
 
       <!-- Source 1: Solar -->
       <g class="flow-node" transform="translate(40, 40)">
-        <rect class="node-box" width="130" height="80" fill="#0f1f38" stroke="#f59e0b" stroke-width="1.5"/>
-        <circle cx="28" cy="40" r="16" fill="rgba(245, 158, 11, 0.2)" />
-        <text x="28" y="45" text-anchor="middle" fill="#f59e0b" font-size="14">☀</text>
-        <text x="75" y="32" fill="#94a3b8" font-size="11" font-weight="600">SOLAR PV</text>
-        <text id="node-solar-val" x="75" y="55" fill="#f59e0b" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">18.4 kW</text>
+        <rect class="node-box" width="130" height="80" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+        <circle cx="28" cy="40" r="16" fill="rgba(217, 119, 6, 0.15)" />
+        <text x="28" y="45" text-anchor="middle" fill="#d97706" font-size="14">☀</text>
+        <text x="75" y="32" fill="#475569" font-size="11" font-weight="700">SOLAR PV</text>
+        <text id="node-solar-val" x="75" y="55" fill="#d97706" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">18.4 kW</text>
       </g>
 
       <!-- Source 2: Wind -->
       <g class="flow-node" transform="translate(40, 240)">
-        <rect class="node-box" width="130" height="80" fill="#0f1f38" stroke="#38bdf8" stroke-width="1.5"/>
-        <circle cx="28" cy="40" r="16" fill="rgba(56, 189, 248, 0.2)" />
-        <text x="28" y="45" text-anchor="middle" fill="#38bdf8" font-size="14">༄</text>
-        <text x="75" y="32" fill="#94a3b8" font-size="11" font-weight="600">WIND TURBINE</text>
-        <text id="node-wind-val" x="75" y="55" fill="#38bdf8" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">7.2 kW</text>
+        <rect class="node-box" width="130" height="80" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+        <circle cx="28" cy="40" r="16" fill="rgba(2, 132, 199, 0.15)" />
+        <text x="28" y="45" text-anchor="middle" fill="#0284c7" font-size="14">༄</text>
+        <text x="75" y="32" fill="#475569" font-size="11" font-weight="700">WIND TURBINE</text>
+        <text id="node-wind-val" x="75" y="55" fill="#0284c7" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">7.2 kW</text>
       </g>
 
       <!-- Sink 1: Battery Storage -->
       <g class="flow-node" transform="translate(630, 40)">
-        <rect class="node-box" width="130" height="80" fill="#0f1f38" stroke="#10b981" stroke-width="1.5"/>
-        <circle cx="28" cy="40" r="16" fill="rgba(16, 185, 129, 0.2)" />
-        <text x="28" y="45" text-anchor="middle" fill="#10b981" font-size="14">⚡</text>
-        <text x="75" y="32" fill="#94a3b8" font-size="11" font-weight="600">BATTERY SOC</text>
-        <text id="node-batt-val" x="75" y="55" fill="#10b981" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">76%</text>
-        <text id="node-batt-sub" x="75" y="70" fill="#64748b" font-size="10">+6.4 kW Chg</text>
+        <rect class="node-box" width="130" height="80" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+        <circle cx="28" cy="40" r="16" fill="rgba(5, 150, 105, 0.15)" />
+        <text x="28" y="45" text-anchor="middle" fill="#059669" font-size="14">⚡</text>
+        <text x="75" y="32" fill="#475569" font-size="11" font-weight="700">BATTERY SOC</text>
+        <text id="node-batt-val" x="75" y="55" fill="#059669" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">76%</text>
+        <text id="node-batt-sub" x="75" y="70" fill="#64748b" font-size="10" font-weight="600">+6.4 kW Chg</text>
       </g>
 
       <!-- Sink 2: Station Load -->
       <g class="flow-node" transform="translate(630, 240)">
-        <rect class="node-box" width="130" height="80" fill="#0f1f38" stroke="#f43f5e" stroke-width="1.5"/>
-        <circle cx="28" cy="40" r="16" fill="rgba(244, 63, 94, 0.2)" />
-        <text x="28" y="45" text-anchor="middle" fill="#f43f5e" font-size="14">⌂</text>
-        <text x="75" y="32" fill="#94a3b8" font-size="11" font-weight="600">STATION LOAD</text>
-        <text id="node-load-val" x="75" y="55" fill="#f43f5e" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">14.2 kW</text>
-        <text x="75" y="70" fill="#64748b" font-size="10">Life & Science</text>
+        <rect class="node-box" width="130" height="80" fill="#ffffff" stroke="#e11d48" stroke-width="2"/>
+        <circle cx="28" cy="40" r="16" fill="rgba(225, 29, 72, 0.15)" />
+        <text x="28" y="45" text-anchor="middle" fill="#e11d48" font-size="14">⌂</text>
+        <text x="75" y="32" fill="#475569" font-size="11" font-weight="700">STATION LOAD</text>
+        <text id="node-load-val" x="75" y="55" fill="#e11d48" font-size="16" font-weight="700" font-family="JetBrains Mono, monospace">14.2 kW</text>
+        <text x="75" y="70" fill="#64748b" font-size="10" font-weight="600">Life & Science</text>
       </g>
 
       <!-- Backup Generator -->
       <g class="flow-node" transform="translate(340, 290)">
-        <rect class="node-box" width="120" height="50" fill="#0a1224" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <text x="60" y="22" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="700">BACKUP GENERATOR</text>
-        <text id="node-gen-val" x="60" y="38" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="JetBrains Mono, monospace">STANDBY (0 kW)</text>
+        <rect class="node-box" width="120" height="50" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <text x="60" y="22" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="700">BACKUP GENERATOR</text>
+        <text id="node-gen-val" x="60" y="38" text-anchor="middle" fill="#475569" font-size="11" font-weight="600" font-family="JetBrains Mono, monospace">STANDBY (0 kW)</text>
       </g>
     </svg>
   `;
@@ -217,8 +217,8 @@ function initRealtimeChart() {
         {
           label: 'Solar Gen (kW)',
           data: hist.solar.slice(-12),
-          borderColor: '#f59e0b',
-          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          borderColor: '#d97706',
+          backgroundColor: 'rgba(217, 119, 6, 0.12)',
           fill: true,
           tension: 0.35,
           borderWidth: 2,
@@ -227,8 +227,8 @@ function initRealtimeChart() {
         {
           label: 'Wind Gen (kW)',
           data: hist.wind.slice(-12),
-          borderColor: '#38bdf8',
-          backgroundColor: 'rgba(56, 189, 248, 0.1)',
+          borderColor: '#0284c7',
+          backgroundColor: 'rgba(2, 132, 199, 0.12)',
           fill: true,
           tension: 0.35,
           borderWidth: 2,
@@ -237,8 +237,8 @@ function initRealtimeChart() {
         {
           label: 'Total Load (kW)',
           data: hist.load.slice(-12),
-          borderColor: '#f43f5e',
-          backgroundColor: 'rgba(244, 63, 94, 0.05)',
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225, 29, 72, 0.08)',
           fill: false,
           tension: 0.35,
           borderWidth: 2.5,
@@ -248,11 +248,11 @@ function initRealtimeChart() {
         {
           label: 'Battery SOC (%)',
           data: hist.batterySoc.slice(-12),
-          borderColor: '#10b981',
+          borderColor: '#059669',
           yAxisID: 'y1',
           fill: false,
           tension: 0.35,
-          borderWidth: 1.5,
+          borderWidth: 1.8,
           pointRadius: 2
         }
       ]
@@ -267,26 +267,27 @@ function initRealtimeChart() {
       plugins: {
         legend: {
           labels: {
-            color: '#94a3b8',
-            font: { family: 'Inter', size: 11 }
+            color: '#334155',
+            font: { family: 'Inter', size: 11, weight: '600' }
           }
         },
         tooltip: {
-          backgroundColor: '#0d172e',
-          titleColor: '#00f2fe',
-          bodyColor: '#f1f5f9',
-          borderColor: 'rgba(56, 189, 248, 0.3)',
-          borderWidth: 1
+          backgroundColor: '#ffffff',
+          titleColor: '#0284c7',
+          bodyColor: '#0f172a',
+          borderColor: 'rgba(2, 132, 199, 0.3)',
+          borderWidth: 1,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }
       },
       scales: {
         x: {
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
-          ticks: { color: '#64748b', font: { size: 10 } }
+          grid: { color: 'rgba(2, 132, 199, 0.06)' },
+          ticks: { color: '#64748b', font: { size: 10, weight: '500' } }
         },
         y: {
-          title: { display: true, text: 'Power (kW)', color: '#94a3b8', font: { size: 11 } },
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
+          title: { display: true, text: 'Power (kW)', color: '#334155', font: { size: 11, weight: '600' } },
+          grid: { color: 'rgba(2, 132, 199, 0.06)' },
           ticks: { color: '#64748b' }
         },
         y1: {
@@ -294,9 +295,9 @@ function initRealtimeChart() {
           position: 'right',
           min: 0,
           max: 100,
-          title: { display: true, text: 'SOC (%)', color: '#10b981', font: { size: 11 } },
+          title: { display: true, text: 'SOC (%)', color: '#059669', font: { size: 11, weight: '600' } },
           grid: { drawOnChartArea: false },
-          ticks: { color: '#10b981' }
+          ticks: { color: '#059669' }
         }
       }
     }

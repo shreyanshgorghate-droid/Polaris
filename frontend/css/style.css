@@ -1452,15 +1452,53 @@ input[type="range"] {
   font-weight: 500;
 }
 
+/* Mobile Sidebar Overlay & Close Button */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 45;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+.sidebar-close-btn {
+  display: none;
+  background: rgba(2, 132, 199, 0.1);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: auto;
+}
+
 /* Mobile Toggle */
 .mobile-nav-toggle {
   display: none;
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  font-size: 22px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border-accent);
+  color: var(--cyan-deep);
+  font-size: 20px;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 6px rgba(12, 74, 110, 0.05);
 }
 
 /* Live Pulse Badge */
@@ -1504,10 +1542,15 @@ input[type="range"] {
 @media (max-width: 860px) {
   .sidebar {
     transform: translateX(-100%);
+    width: 280px;
+    max-width: 85vw;
+    box-shadow: 10px 0 40px rgba(12, 74, 110, 0.25);
   }
   .sidebar.open {
     transform: translateX(0);
-    box-shadow: 10px 0 40px rgba(12, 74, 110, 0.2);
+  }
+  .sidebar-close-btn {
+    display: flex;
   }
   .main-wrapper {
     margin-left: 0;
@@ -1522,20 +1565,133 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
   .top-header {
-    padding: 0 16px;
+    padding: 10px 16px;
     height: auto;
     min-height: var(--header-height);
-    padding-top: 10px;
-    padding-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
   }
   .page-container {
     padding: 16px 14px 40px;
   }
 }
 
+/* Dedicated Phone / Small Screen Breakpoint (max-width: 600px) */
+@media (max-width: 600px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .kpi-card {
+    padding: 12px 14px;
+  }
+  .kpi-value {
+    font-size: 20px;
+  }
+  .kpi-name {
+    font-size: 10px;
+  }
+  .kpi-trend {
+    font-size: 10px;
+  }
+  .kpi-icon-box {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .glass-card {
+    padding: 16px 14px;
+    border-radius: var(--radius-md);
+  }
+  .card-title {
+    font-size: 12px;
+  }
+  .page-title {
+    font-size: 18px;
+  }
+  .page-subtitle {
+    font-size: 11px;
+  }
+  .chart-wrapper {
+    height: 220px;
+  }
+  .flow-container {
+    min-height: 280px;
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .flow-svg-canvas {
+    min-width: 580px;
+    min-height: 260px;
+  }
+  .polar-terminal-widget {
+    padding: 14px;
+  }
+  .forecast-track-box {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .forecast-track-line {
+    white-space: nowrap;
+  }
+  .weather-hero-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .weather-metric-box {
+    padding: 12px;
+  }
+  .weather-val {
+    font-size: 22px;
+  }
+  .modal-box {
+    padding: 18px 14px;
+    width: 95vw;
+    max-height: 92vh;
+  }
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  .landing-card {
+    padding: 24px 18px;
+  }
+  .landing-title {
+    font-size: 24px;
+  }
+  .landing-demo-btn-wrap {
+    flex-direction: column;
+  }
+  .btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+/* Extra Small Phone Breakpoint (max-width: 400px) */
+@media (max-width: 400px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .weather-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Print Styles for Reports */
 @media print {
-  .sidebar, .top-header, .btn, .chart-filters, .modal-overlay, .bg-ambient, .bg-grid {
+  .sidebar, .top-header, .btn, .chart-filters, .modal-overlay, .bg-ambient, .bg-grid, .sidebar-overlay {
     display: none !important;
   }
   .main-wrapper {
@@ -1557,3 +1713,4 @@ input[type="range"] {
     padding: 0 !important;
   }
 }
+
